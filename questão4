@@ -1,0 +1,72 @@
+# Superclasse abstrata
+from abc import ABC, abstractmethod
+
+class ItemCardapio(ABC):
+    def __init__(self, nome, preco):
+        self.nome = nome
+        self.preco = preco
+
+    @abstractmethod
+    def preparar(self):
+        pass
+
+# Subclasses
+class PratoPrincipal(ItemCardapio):
+    def preparar(self):
+        return f"Preparando o prato principal: {self.nome}"
+
+class Sobremesa(ItemCardapio):
+    def preparar(self):
+        return f"Preparando a sobremesa: {self.nome}"
+
+# Novo tipo de item: Bebida (Questão 4)
+class Bebida(ItemCardapio):
+    def preparar(self):
+        return f"Servindo a bebida: {self.nome}"
+
+# Interface Factory
+class CriadorDeItem(ABC):
+    @abstractmethod
+    def criar_item(self, nome, preco):
+        pass
+
+# Fábricas concretas
+class CriadorDePratoPrincipal(CriadorDeItem):
+    def criar_item(self, nome, preco):
+        return PratoPrincipal(nome, preco)
+
+class CriadorDeSobremesa(CriadorDeItem):
+    def criar_item(self, nome, preco):
+        return Sobremesa(nome, preco)
+
+class CriadorDeBebida(CriadorDeItem):  # Fábrica da Bebida
+    def criar_item(self, nome, preco):
+        return Bebida(nome, preco)
+
+# Classe Pedido
+class Pedido:
+    def __init__(self):
+        self.itens = []
+
+    def adicionar_item(self, item):
+        self.itens.append(item)
+
+    def resumir_pedido(self):
+        for item in self.itens:
+            print(f"Nome: {item.nome}")
+            print(f"Preço: R${item.preco}")
+            print(item.preparar())
+            print("-----------------")
+
+# Simulação incluindo a bebida (Questão 4)
+if __name__ == "__main__":
+    criador_prato = CriadorDePratoPrincipal()
+    criador_sobremesa = CriadorDeSobremesa()
+    criador_bebida = CriadorDeBebida()
+
+    pedido = Pedido()
+    pedido.adicionar_item(criador_prato.criar_item("Lasanha", 25.0))
+    pedido.adicionar_item(criador_sobremesa.criar_item("Pudim", 12.0))
+    pedido.adicionar_item(criador_bebida.criar_item("Suco de Laranja", 8.0))
+
+    pedido.resumir_pedido()

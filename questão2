@@ -1,0 +1,14 @@
+from abc import ABC, abstractmethod
+
+class CriadorDeItem(ABC):
+    @abstractmethod
+    def criar_item(self, nome, preco):
+        pass
+
+class CriadorDePratoPrincipal(CriadorDeItem):
+    def criar_item(self, nome, preco):
+        return PratoPrincipal(nome, preco)
+
+class CriadorDeSobremesa(CriadorDeItem):
+    def criar_item(self, nome, preco):
+        return Sobremesa(nome, preco)

@@ -1,0 +1,18 @@
+from abc import ABC, abstractmethod
+
+class ItemCardapio(ABC):
+    def __init__(self, nome, preco):
+        self.nome = nome
+        self.preco = preco
+
+    @abstractmethod
+    def preparar(self):
+        pass
+
+class PratoPrincipal(ItemCardapio):
+    def preparar(self):
+        return f"Preparando o prato principal: {self.nome}"
+
+class Sobremesa(ItemCardapio):
+    def preparar(self):
+        return f"Preparando a sobremesa: {self.nome}"

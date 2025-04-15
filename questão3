@@ -1,0 +1,51 @@
+# Superclasse abstrata
+from abc import ABC, abstractmethod
+
+class ItemCardapio(ABC):
+    def __init__(self, nome, preco):
+        self.nome = nome
+        self.preco = preco
+
+    @abstractmethod
+    def preparar(self):
+        pass
+
+# Subclasses
+class PratoPrincipal(ItemCardapio):
+    def preparar(self):
+        return f"Preparando o prato principal: {self.nome}"
+
+class Sobremesa(ItemCardapio):
+    def preparar(self):
+        return f"Preparando a sobremesa: {self.nome}"
+
+# Interface Factory
+class CriadorDeItem(ABC):
+    @abstractmethod
+    def criar_item(self, nome, preco):
+        pass
+
+# Fábricas concretas
+class CriadorDePratoPrincipal(CriadorDeItem):
+    def criar_item(self, nome, preco):
+        return PratoPrincipal(nome, preco)
+
+class CriadorDeSobremesa(CriadorDeItem):
+    def criar_item(self, nome, preco):
+        return Sobremesa(nome, preco)
+
+# Classe Pedido (Questão 3)
+class Pedido:
+    def __init__(self):
+        self.itens = []
+
+    def adicionar_item(self, item):
+        self.itens.append(item)
+
+    def resumir_pedido(self):
+        for item in self.itens:
+            print(f"Nome: {item.nome}")
+            print(f"Preço: R${item.preco}")
+            print(item.preparar())
+            print("-----------------")
+
